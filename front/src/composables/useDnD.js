@@ -12,19 +12,20 @@ function getId() {
 
 /**
  * In a real world scenario you'd want to avoid creating refs in a global scope like this as they might not be cleaned up properly.
- * @type {{draggedType: Ref<string|null>, isDragOver: Ref<boolean>, isDragging: Ref<boolean>}}
+ * @type {{draggedData: Ref<Object|null>, draggedType: Ref<string|null>, isDragOver: Ref<boolean>, isDragging: Ref<boolean>}}
  */
 const state = {
   /**
    * The type of the node being dragged.
    */
+	draggedData: ref({}),
   draggedType: ref(null),
   isDragOver: ref(false),
   isDragging: ref(false),
 }
 
 export default function useDragAndDrop() {
-  const { draggedType, isDragOver, isDragging } = state
+  const { draggedData, draggedType, isDragOver, isDragging } = state
 
   const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } = useVueFlow()
 
@@ -32,13 +33,14 @@ export default function useDragAndDrop() {
     document.body.style.userSelect = dragging ? 'none' : ''
   })
 
-  function onDragStart(event, type) {
+  function onDragStart(event, type, data) {
     if (event.dataTransfer) {
 			console.log((type))
       event.dataTransfer.setData('application/vueflow', type)
       event.dataTransfer.effectAllowed = 'move'
     }
 
+		draggedData.value = data
     draggedType.value = type
     isDragging.value = true
 
@@ -70,6 +72,7 @@ export default function useDragAndDrop() {
     isDragging.value = false
     isDragOver.value = false
     draggedType.value = null
+		draggedData.value = {}
     document.removeEventListener('drop', onDragEnd)
   }
 
@@ -90,7 +93,7 @@ export default function useDragAndDrop() {
       id: nodeId,
       type: draggedType.value,
       position,
-      data: { label: nodeId },
+      data: { ...draggedData.value },
     }
 
     /**
@@ -110,6 +113,7 @@ export default function useDragAndDrop() {
   }
 
   return {
+		draggedData,
     draggedType,
     isDragOver,
     isDragging,
