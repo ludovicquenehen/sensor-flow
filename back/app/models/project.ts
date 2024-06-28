@@ -1,28 +1,20 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
-import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import Organization from './organization.js'
+import type { HasOne } from '@adonisjs/lucid/types/relations'
 
 export default class Project extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
+  @hasOne(() => Organization)
+  declare organization: HasOne<typeof Organization>
+
   @column()
-  declare organization: string
+  declare organizationId: string
 
   @column()
   declare label: string
-
-  @column()
-  declare env: string
-
-  @column()
-  declare path: string
-
-  @column()
-  declare pathTests: string
-
-  @column()
-  declare commitInProgress: boolean
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

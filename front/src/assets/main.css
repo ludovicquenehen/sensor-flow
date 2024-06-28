@@ -357,8 +357,8 @@ select > option {
 
 .view {
   position: absolute;
-  top: 10%;
-  left: 5%;
+  top: 10vh;
+  left: 5vw;
 }
 
 .dnd-flow {

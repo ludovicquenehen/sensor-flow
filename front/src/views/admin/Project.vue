@@ -3,8 +3,6 @@
     <div class="text-xl text-white mb-8">Projects</div>
     <div class="flex md:flex-row flex-col gap-2 mt-4">
       <input v-model="form.label" placeholder="Label" />
-      <input v-model="form.path" placeholder="Project path" />
-      <input v-model="form.pathTests" placeholder="Tests path" />
       <button
         :disabled="Object.values(form).some((e) => !e)"
         class="button-green md:w-16"
@@ -19,14 +17,13 @@
 <script setup>
 import useProjectStore from '@/stores/use-project-store'
 import Table from '@/components/tables/Table.vue'
+import useHardwareStore from '@/stores/use-hardware-store'
 
 const projects = computed(() =>
   useProjectStore.projects.sort((a, b) => a.label.localeCompare(b.label))
 )
 const form = ref({
   label: '',
-  path: '',
-  pathTests: ''
 })
 
 const columns = ref([
@@ -36,16 +33,15 @@ const columns = ref([
     field: 'label'
   },
   {
-    label: 'Path',
-    class: 'w-64 text-center',
-    rowClass: 'w-64 text-center font-semibold',
-    field: 'path'
-  },
-  {
-    label: 'Path tests',
-    class: 'w-64 text-center',
-    rowClass: 'w-64 text-center font-semibold',
-    field: 'pathTests'
+    label: 'Hardwares',
+    class: 'w-72',
+    field: (row) => {
+			const harwaresProject = useHardwareStore.hardwares.filter(e =>  e.projectId === row.id)
+      const sensors = harwaresProject.filter((e) => e.type === 'SENSOR')
+      const actuators = harwaresProject.filter((e) => e.type === 'ACTUATOR')
+      const switches = harwaresProject.filter((e) => e.type === 'SWITCH')
+      return `${sensors.length} sensors / ${actuators.length} actuators / ${switches.length} switches`
+    }
   },
   {
     class: 'w-32',

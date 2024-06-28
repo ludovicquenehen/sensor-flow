@@ -19,6 +19,7 @@ import useUserStore from '@/stores/use-user-store'
 import useProjectStore from '@/stores/use-project-store'
 import Navbar from '@/components/app/Navbar.vue'
 import Toolbar from '@/components/app/Toolbar.vue'
+import useHardwareStore from './stores/use-hardware-store'
 
 const router = useRouter()
 const route = useRoute()
@@ -39,7 +40,7 @@ const navbarItems = computed(() =>
     },
     {
       iconClass: () => [
-        'mdi mdi-git text-4xl cursor-pointer hover:text-cyan-600 hover:text-5xl',
+        'mdi mdi-transit-connection-variant text-4xl cursor-pointer hover:text-cyan-600 hover:text-5xl',
         { 'text-cyan-600': route.path === '/flow' }
       ],
       action: () => router.push('/flow')
@@ -58,6 +59,13 @@ const navbarItems = computed(() =>
         { 'text-yellow-600': route.path.startsWith('/admin/project') }
       ],
       action: () => router.push('/admin/project')
+    },
+		useUserStore.isAdmin && {
+      iconClass: () => [
+        'mdi mdi-car-esp text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
+        { 'text-yellow-600': route.path.startsWith('/admin/hardware') }
+      ],
+      action: () => router.push('/admin/hardware')
     }
   ].filter(Boolean)
 )
@@ -82,6 +90,7 @@ onMounted(async () => {
       await useUserStore.me()
       await useProjectStore.fetch(true)
       await useUserStore.fetch(true)
+			await useHardwareStore.fetch(true)
     }
     setTimeout(() => {
       useAppStore.loading = false

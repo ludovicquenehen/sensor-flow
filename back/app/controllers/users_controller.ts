@@ -5,28 +5,34 @@ import { Exception } from '@adonisjs/core/exceptions'
 import router from '@adonisjs/core/services/router'
 import env from '../../start/env.js'
 import { v4 as uuidv4 } from 'uuid'
+import Organization from '../models/organization.js'
 
 const generateRandomString = (length = 6) => Math.random().toString(20).substr(2, length)
 export default class UsersController {
   async index({ auth }: HttpContext) {
     return await User.query()
-      .where('organization', auth.user?.organization || '')
+      .where('organizationId', auth.user?.organizationId || '')
       .preload('projects')
   }
 
   async invite({ auth, request }: HttpContext) {
     const { email, role } = request.body()
     const password = generateRandomString()
-    const organization = auth.user?.organization
-    const user = await User.create({ organization, email, password, role })
+    const organizationId = auth.user?.organizationId
+    const user = await User.create({ organizationId, email, password, role })
     const link = `${env.get('FRONT_BASE_URL')}/confirm-account#${router.makeSignedUrl('confirmAccount', { email: user.email })}`
     return await Mails.invite(user, link, password)
   }
 
   async signIn({ request }: HttpContext) {
     const { organization } = request.body()
-    const newOrganization = uuidv4()
-    const user = await User.create({ organization: newOrganization, ...request.body(), role: organization ? 'USER' : 'ADMIN' })
+    const organizationId = uuidv4()
+    await Organization.create({ id: organizationId })
+    const user = await User.create({
+      organizationId,
+      ...request.body(),
+      role: organization ? 'USER' : 'ADMIN',
+    })
     const link = `${env.get('FRONT_BASE_URL')}/confirm-account#${router.makeSignedUrl('confirmAccount', { email: user.email })}`
     return await Mails.register(user, link)
   }

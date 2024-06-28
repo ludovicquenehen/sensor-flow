@@ -4,6 +4,7 @@ const UserProjectsController = () => import('../app/controllers/user_projects_co
 const AuthenticationController = () => import('../app/controllers/authentication_controller.js')
 const ProjectsController = () => import('../app/controllers/projects_controller.js')
 const UsersController = () => import('../app/controllers/users_controller.js')
+const HardwaresController = () => import('../app/controllers/hardwares_controller.js')
 
 router
   .group(() => {
@@ -45,5 +46,14 @@ router
       .delete('project/:id', [ProjectsController, 'delete'])
       .use(middleware.auth())
       .use(middleware.admin())
+
+	/** Hardware */
+	router.get('hardware', [HardwaresController, 'index']).use(middleware.auth())
+	router.put('hardware', [HardwaresController, 'store']).use(middleware.auth())
+	router.post('hardware', [HardwaresController, 'update']).use(middleware.auth())
+	router
+		.delete('hardware/:id', [HardwaresController, 'delete'])
+		.use(middleware.auth())
+		.use(middleware.admin())
   })
   .prefix('v1')

@@ -8,6 +8,7 @@ import Flow from '@/views/Flow.vue'
 import Admin from '@/views/admin/Admin.vue'
 import AdminUser from '@/views/admin/User.vue'
 import AdminProject from '@/views/admin/Project.vue'
+import AdminHardware from '@/views/admin/Hardware.vue'
 import User from '@/views/User.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 
@@ -72,6 +73,10 @@ const router = createRouter({
         {
           path: 'project',
           component: AdminProject
+        },
+				{
+          path: 'hardware',
+          component: AdminHardware
         },
       ]
     },

@@ -7,9 +7,9 @@
     <div class="flex flex-col gap-2">
       <span
         class="copy-clipboard flex items-center justify-center text-white px-6 py-4 border-2 border-white rounded-full h-16 w-[800px] cursor-pointer"
-        @click="copyToClipboard(`${$baseUrl}/sign-in/${useUserStore.user?.organization}`)"
+        @click="copyToClipboard(`${$baseUrl}/sign-in/${useUserStore.user?.organizationId}`)"
       >
-        <span class="value">{{ `${$baseUrl}/sign-in/${useUserStore.user?.organization}` }}</span>
+        <span class="value">{{ `${$baseUrl}/sign-in/${useUserStore.user?.organizationId}` }}</span>
         <span class="text text-lg font-semibold">Copy invitation link to clipboard</span>
       </span>
       <div class="flex md:flex-row flex-col gap-2 mt-4 md:w-fit w-full">
