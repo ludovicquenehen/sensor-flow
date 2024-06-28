@@ -10,8 +10,8 @@ export default class HardwaresController {
         .preload('projects')
         .firstOrFail()
     ).projects.map((e) => e.toJSON().id)
-    const snapshots = await Hardware.query().whereIn('projectId', projectIds)
-    return snapshots.map((e: Hardware) => e.toJSON()) || []
+    const hardwares = await Hardware.query().whereIn('projectId', projectIds)
+    return hardwares.map((e: Hardware) => e.toJSON()) || []
   }
 
   async store({ request }: HttpContext) {

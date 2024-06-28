@@ -13,17 +13,17 @@ export default reactive({
       }
     }
   },
-  async add(user) {
+  async add(hardware) {
     try {
-      if (await api.put('/hardware', { ...user })) toast.success('Hardware added successfully')
+      if (await api.put('/hardware', { ...hardware })) toast.success('Hardware added successfully')
       await this.fetch(true)
     } catch {
       toast.error('Add hardware error')
     }
   },
-  async update(user) {
+  async update(hardwareId, hardware) {
     try {
-      if (await api.post('/hardware', { ...user })) toast.success('Hardware updated successfully')
+      if (await api.post(`/hardware/${hardwareId}`, { ...hardware })) toast.success('Hardware updated successfully')
       await this.fetch(true)
     } catch {
       toast.error('Upate hardware error')

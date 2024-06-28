@@ -20,6 +20,7 @@ import useProjectStore from '@/stores/use-project-store'
 import Navbar from '@/components/app/Navbar.vue'
 import Toolbar from '@/components/app/Toolbar.vue'
 import useHardwareStore from './stores/use-hardware-store'
+import useFlowStore from './stores/use-flow-store'
 
 const router = useRouter()
 const route = useRoute()
@@ -91,6 +92,7 @@ onMounted(async () => {
       await useProjectStore.fetch(true)
       await useUserStore.fetch(true)
 			await useHardwareStore.fetch(true)
+			await useFlowStore.fetch(true)
     }
     setTimeout(() => {
       useAppStore.loading = false
