@@ -39,8 +39,7 @@ const columns = ref([
 			const harwaresProject = useHardwareStore.hardwares.filter(e =>  e.projectId === row.id)
       const sensors = harwaresProject.filter((e) => e.type === 'SENSOR')
       const actuators = harwaresProject.filter((e) => e.type === 'ACTUATOR')
-      const switches = harwaresProject.filter((e) => e.type === 'SWITCH')
-      return `${sensors.length} sensors / ${actuators.length} actuators / ${switches.length} switches`
+      return `${sensors.length} sensors / ${actuators.length} actuators`
     }
   },
   {

@@ -1,0 +1,136 @@
+[
+  {
+    "id": 89,
+    "name": "fgg",
+    "type": "SWITCH",
+    "idHardware": 4,
+    "children": [
+      {
+        "type": "TIME",
+        "mode": "DURATION",
+        "start": "06:00",
+        "end": "00:00",
+        "children": [],
+        "edit": true,
+        "id": "d96bab3f-6c95-42ac-a692-32642e779baa"
+      }
+    ]
+  },
+  {
+    "id": "d96bab3f-6c95-4bac-a692-32642e779baa",
+    "idHardware": 5,
+    "type": "SWITCH",
+    "edit": true,
+    "children": [
+      {
+        "id": "b28a4a04-6d75-4997-8358-aa6855570457",
+        "type": "and",
+        "edit": true,
+        "children": [
+          {
+            "id": "1783dd8f-4b37-426f-98bd-af14c068ced2",
+            "type": "SENSOR",
+            "edit": true,
+            "children": [],
+            "idHardware": 2,
+            "operator": "lower",
+            "value": 90
+          },
+          {
+            "id": "da4cb5ec-f1a6-42bb-8175-ef7fa1a2b108",
+            "type": "or",
+            "edit": true,
+            "children": [
+              {
+                "id": "55d377cf-a4cb-4dd6-8cb3-d7e3f95e1859",
+                "type": "SENSOR",
+                "edit": true,
+                "children": [],
+                "idHardware": 1,
+                "operator": "greater",
+                "value": 25
+              },
+              {
+                "id": "039450a2-a4ab-4617-b509-dcd3bfa0c7dc",
+                "type": "SENSOR",
+                "edit": true,
+                "children": [],
+                "idHardware": 2,
+                "operator": "greater",
+                "value": 70
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "316817c7-b8e9-4d1c-bdf1-d6e2fe1152a5",
+    "idHardware": 6,
+    "type": "SWITCH",
+    "edit": true,
+    "children": [
+      {
+        "id": "b18d147d-bae0-4e44-993c-a77f65d1a27a",
+        "type": "TIME",
+        "children": [],
+        "mode": "INTERVAL",
+        "edit": true,
+        "start": "06:00",
+        "end": "00:00",
+        "on": "00:05",
+        "off": "00:05"
+      },
+      {
+        "id": "4589db59-fb36-494a-a658-18e2b9cf97a0",
+        "type": "TIME",
+        "children": [],
+        "mode": "INTERVAL",
+        "edit": true,
+        "start": "00:00",
+        "end": "06:00",
+        "on": "00:05",
+        "off": "00:25"
+      },
+      {
+        "id": "d9801633-1a18-40f7-ae8a-4b71124e2f78",
+        "type": "TIME",
+        "children": [
+          {
+            "id": "41d03150-de9f-4023-a9fe-fd641d0d96d1",
+            "type": "SENSOR",
+            "children": [],
+            "edit": true,
+            "idHardware": 1,
+            "operator": "greater",
+            "value": 25
+          }
+        ],
+        "mode": "DURATION",
+        "edit": true,
+        "start": "06:00",
+        "end": "00:00"
+      },
+      {
+        "id": "76216106-4ae2-4d14-ac10-86779b7c5dd9",
+        "type": "TIME",
+        "children": [
+          {
+            "id": "90c5ddef-1b54-49b9-b993-791419501ca5",
+            "type": "SENSOR",
+            "children": [],
+            "edit": true,
+            "operator": "greater",
+            "idHardware": 2,
+            "value": 70
+          }
+        ],
+        "mode": "DURATION",
+        "edit": true,
+        "start": "00:00",
+        "end": "06:00"
+      }
+    ]
+  }
+]

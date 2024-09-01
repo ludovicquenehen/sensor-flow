@@ -1,13 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, column, hasOne } from '@adonisjs/lucid/orm'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
 import Project from './project.js'
 
-type HARDWARE_TYPE = 'SENSOR' | 'ACTUATOR'
-
-export default class Hardware extends BaseModel {
+export default class Program extends BaseModel {
   static get table() {
-    return 'hardwares'
+    return 'programs'
   }
 
   @column({ isPrimary: true })
@@ -16,21 +14,25 @@ export default class Hardware extends BaseModel {
   @column()
   declare label: string
 
-  @column()
-  declare api: string
-
-  @column()
-  declare type: HARDWARE_TYPE
-
   @hasOne(() => Project)
   declare project: HasOne<typeof Project>
 
   @column()
   declare projectId: number
 
+  @column({
+    serialize: (value: string) => JSON.parse(value),
+  })
+  declare program: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @beforeSave()
+  public static async hashPassword(program: Program) {
+    program.program = JSON.stringify(program.$dirty.program)
+  }
 }

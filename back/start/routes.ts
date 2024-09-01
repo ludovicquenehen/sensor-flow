@@ -6,6 +6,8 @@ const AuthenticationController = () => import('../app/controllers/authentication
 const ProjectsController = () => import('../app/controllers/projects_controller.js')
 const UsersController = () => import('../app/controllers/users_controller.js')
 const HardwaresController = () => import('../app/controllers/hardwares_controller.js')
+const ProgramsController = () => import('../app/controllers/programs_controller.js')
+const CyclesController = () => import('../app/controllers/cycles_controller.js')
 const FlowsController = () => import('../app/controllers/flows_controller.js')
 
 router
@@ -55,6 +57,24 @@ router
     router.post('hardware/:id', [HardwaresController, 'update']).use(middleware.auth())
     router
       .delete('hardware/:id', [HardwaresController, 'delete'])
+      .use(middleware.auth())
+      .use(middleware.admin())
+
+    /** Program */
+    router.get('program', [ProgramsController, 'index']).use(middleware.auth())
+    router.put('program', [ProgramsController, 'store']).use(middleware.auth())
+    router.post('program/:id', [ProgramsController, 'update']).use(middleware.auth())
+    router
+      .delete('program/:id', [ProgramsController, 'delete'])
+      .use(middleware.auth())
+      .use(middleware.admin())
+
+    /** Cycle */
+    router.get('cycle', [CyclesController, 'index']).use(middleware.auth())
+    router.put('cycle', [CyclesController, 'store']).use(middleware.auth())
+    router.post('cycle/:id', [CyclesController, 'update']).use(middleware.auth())
+    router
+      .delete('cycle/:id', [CyclesController, 'delete'])
       .use(middleware.auth())
       .use(middleware.admin())
 

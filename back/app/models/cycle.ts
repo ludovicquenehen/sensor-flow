@@ -1,13 +1,11 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
-import Project from './project.js'
+import Program from './program.js'
 
-type HARDWARE_TYPE = 'SENSOR' | 'ACTUATOR'
-
-export default class Hardware extends BaseModel {
-  static get table() {
-    return 'hardwares'
+export default class Cycle extends BaseModel {
+	static get table () {
+    return 'cycles'
   }
 
   @column({ isPrimary: true })
@@ -16,17 +14,17 @@ export default class Hardware extends BaseModel {
   @column()
   declare label: string
 
-  @column()
-  declare api: string
+  @hasOne(() => Program)
+  declare program: HasOne<typeof Program>
 
   @column()
-  declare type: HARDWARE_TYPE
+  declare programId: number
 
-  @hasOne(() => Project)
-  declare project: HasOne<typeof Project>
+	@column()
+  declare start: string
 
-  @column()
-  declare projectId: number
+	@column()
+  declare end: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

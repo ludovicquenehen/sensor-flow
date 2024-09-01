@@ -21,7 +21,7 @@
   font-weight: normal;
   width: 100vw;
   height: 100vh;
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .loader {
@@ -217,6 +217,16 @@ img,
 
 button {
   transition: all 0.2s;
+}
+
+button:not(.button-white):not(.button-green):not(.button-red):not(.button-warning):not(
+    .button-action
+  ):hover {
+  background: #fff;
+
+  > i {
+    color: var(--color-background);
+  }
 }
 
 .button-white,
@@ -431,4 +441,8 @@ select > option {
   justify-content: center;
   z-index: 1;
   pointer-events: none;
+}
+
+.white-shadow {
+  box-shadow: 0px 0px 15px 4px #ffffff22;
 }

@@ -19,8 +19,9 @@ import useUserStore from '@/stores/use-user-store'
 import useProjectStore from '@/stores/use-project-store'
 import Navbar from '@/components/app/Navbar.vue'
 import Toolbar from '@/components/app/Toolbar.vue'
-import useHardwareStore from './stores/use-hardware-store'
-import useFlowStore from './stores/use-flow-store'
+import useHardwareStore from '@/stores/use-hardware-store'
+import useProgramStore from '@/stores/use-program-store'
+import useCycleStore from '@/stores/use-cycle-store'
 
 const router = useRouter()
 const route = useRoute()
@@ -38,13 +39,6 @@ const navbarItems = computed(() =>
         { 'text-cyan-600': route.path === '/' }
       ],
       action: () => router.push('/')
-    },
-    {
-      iconClass: () => [
-        'mdi mdi-transit-connection-variant text-4xl cursor-pointer hover:text-cyan-600 hover:text-5xl',
-        { 'text-cyan-600': route.path === '/flow' }
-      ],
-      action: () => router.push('/flow')
     },
     useUserStore.isAdmin && { separator: true },
     useUserStore.isAdmin && {
@@ -67,6 +61,20 @@ const navbarItems = computed(() =>
         { 'text-yellow-600': route.path.startsWith('/admin/hardware') }
       ],
       action: () => router.push('/admin/hardware')
+    },
+		useUserStore.isAdmin && {
+      iconClass: () => [
+        'mdi mdi-progress-clock text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
+        { 'text-yellow-600': route.path.startsWith('/admin/program') }
+      ],
+      action: () => router.push('/admin/program')
+    },
+		useUserStore.isAdmin && {
+      iconClass: () => [
+        'mdi mdi-recycle-variant text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
+        { 'text-yellow-600': route.path.startsWith('/admin/cycle') }
+      ],
+      action: () => router.push('/admin/cycle')
     }
   ].filter(Boolean)
 )
@@ -92,7 +100,8 @@ onMounted(async () => {
       await useProjectStore.fetch(true)
       await useUserStore.fetch(true)
 			await useHardwareStore.fetch(true)
-			await useFlowStore.fetch(true)
+			await useProgramStore.fetch(true)
+			await useCycleStore.fetch(true)
     }
     setTimeout(() => {
       useAppStore.loading = false

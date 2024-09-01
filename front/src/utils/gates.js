@@ -1,0 +1,1 @@
+export const LOGIC_GATES = ['or', 'and', 'nor', 'not', 'xor', 'nand', 'xnor']
