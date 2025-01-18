@@ -16,6 +16,10 @@
   --rusty-red-light: #d6224655;
 }
 
+body::-webkit-scrollbar {
+  width: 0px;
+}
+
 #app {
   margin: 0 auto;
   font-weight: normal;
@@ -295,6 +299,10 @@ button.active {
   color: var(--rusty-red);
 }
 
+.text-blue {
+  color: var(--deep-sky-blue);
+}
+
 .border-blue {
   border-color: var(--deep-sky-blue);
 }
@@ -367,8 +375,8 @@ select > option {
 
 .view {
   position: absolute;
-  top: 10vh;
-  left: 5vw;
+  top: 50px;
+  left: 100px;
 }
 
 .dnd-flow {

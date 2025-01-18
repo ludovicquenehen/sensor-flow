@@ -9,7 +9,7 @@
     >
   </div>
   <span v-else class="loader"> </span>
-	<RouterView v-if="!useAppStore.loading" />
+  <RouterView v-if="!useAppStore.loading" />
 </template>
 <script setup>
 import { version } from '@/../package.json'
@@ -55,26 +55,33 @@ const navbarItems = computed(() =>
       ],
       action: () => router.push('/admin/project')
     },
-		useUserStore.isAdmin && {
+    useUserStore.isAdmin && {
       iconClass: () => [
         'mdi mdi-car-esp text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
         { 'text-yellow-600': route.path.startsWith('/admin/hardware') }
       ],
       action: () => router.push('/admin/hardware')
     },
-		useUserStore.isAdmin && {
+    useUserStore.isAdmin && {
       iconClass: () => [
         'mdi mdi-progress-clock text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
         { 'text-yellow-600': route.path.startsWith('/admin/program') }
       ],
       action: () => router.push('/admin/program')
     },
-		useUserStore.isAdmin && {
+    useUserStore.isAdmin && {
       iconClass: () => [
         'mdi mdi-recycle-variant text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
         { 'text-yellow-600': route.path.startsWith('/admin/cycle') }
       ],
       action: () => router.push('/admin/cycle')
+    },
+    useUserStore.isAdmin && {
+      iconClass: () => [
+        'mdi mdi-run text-4xl cursor-pointer hover:text-yellow-600 hover:text-5xl',
+        { 'text-yellow-600': route.path.startsWith('/admin/run') }
+      ],
+      action: () => router.push('/admin/run')
     }
   ].filter(Boolean)
 )
@@ -99,9 +106,9 @@ onMounted(async () => {
       await useUserStore.me()
       await useProjectStore.fetch(true)
       await useUserStore.fetch(true)
-			await useHardwareStore.fetch(true)
-			await useProgramStore.fetch(true)
-			await useCycleStore.fetch(true)
+      await useHardwareStore.fetch(true)
+      await useProgramStore.fetch(true)
+      await useCycleStore.fetch(true)
     }
     setTimeout(() => {
       useAppStore.loading = false

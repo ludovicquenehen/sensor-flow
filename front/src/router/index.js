@@ -12,6 +12,7 @@ import AdminHardware from '@/views/admin/Hardware.vue'
 import AdminProgram from '@/views/admin/Program.vue'
 import AdminProgramConfig from '@/views/admin/ProgramConfig.vue'
 import AdminCycle from '@/views/admin/Cycle.vue'
+import AdminRun from '@/views/admin/Run.vue'
 import User from '@/views/User.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 
@@ -92,6 +93,10 @@ const router = createRouter({
         {
           path: 'cycle',
           component: AdminCycle
+        },
+				{
+          path: 'run',
+          component: AdminRun
         }
       ]
     }

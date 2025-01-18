@@ -1,22 +1,24 @@
 <template>
-  <div :class="['flex gap-2', { 'flex-col': !root }]">
+  <div :class="['flex justify-center gap-2', { 'flex-col': !root && !child }]">
     <div
       v-for="(node, index) of nodes"
       :key="node.id"
       :class="[
-        'border border-1 px-4 py-2 flex flex-col gap-1',
+        'rounded-xl px-4 py-2 flex flex-col gap-1',
         {
-          'button-white': node.type === 'SWITCH',
-          'button-green': node.type === 'SENSOR',
-          'button-red': node.type === 'ACTUATOR',
-          'button-action': ![...HARDWARE_TYPE, 'TIME'].includes(node.type)
+          'border-2': !root,
+          'border-white': node.type === 'SWITCH',
+          'border-green': node.type === 'SENSOR',
+          'border-red': node.type === 'ACTUATOR',
+					'border-warning': [...HARDWARE_TYPE, 'TIME'].includes(node.type),
+          'border-blue': ![...HARDWARE_TYPE, 'TIME'].includes(node.type)
         }
       ]"
     >
       <Node
         v-model:node="nodes[index]"
         v-model:edited="edited"
-				v-model:selected="selected"
+        v-model:selected="selected"
         @remove-node="removeNode"
         @click="handleSelect(node.id)"
       />
@@ -25,6 +27,7 @@
         v-model:nodes="node.children"
         v-model:selected="selected"
         class="ml-2"
+        :child="true"
       />
     </div>
   </div>
@@ -34,10 +37,16 @@
 // import { VueDraggable } from 'vue-draggable-plus'
 import Node from '@/components/draggable/Node.vue'
 import { HARDWARE_TYPE } from '@/utils/hardwares'
+import { LOGIC_GATES } from '@/utils/gates'
+
 const emit = defineEmits(['removeNode'])
 
 const props = defineProps({
   root: {
+    type: Boolean,
+    default: false
+  },
+  child: {
     type: Boolean,
     default: false
   }

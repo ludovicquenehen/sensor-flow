@@ -12,7 +12,9 @@ export default class CyclesController {
         .firstOrFail()
     ).projects.map((e) => e.toJSON().id)
 
-    const programIds = (await Program.query().whereIn('id', projectIds)).map((e) => e.toJSON().id)
+    const programIds = (await Program.query().whereIn('projectId', projectIds)).map(
+      (e) => e.toJSON().id
+    )
     const cycles = await Cycle.query().whereIn('programId', programIds)
     return cycles.map((e: Cycle) => e.toJSON()) || []
   }

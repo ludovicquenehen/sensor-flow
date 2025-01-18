@@ -15,7 +15,7 @@ export default class ProgramsController {
   }
 
   async store({ request }: HttpContext) {
-    return await Program.create({ ...request.body() })
+    return await Program.create({ ...request.body(), program: "" })
   }
 
   async get({ request }: HttpContext) {

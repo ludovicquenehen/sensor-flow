@@ -4,9 +4,10 @@
     <div class="flex md:flex-row flex-col gap-2 mt-4 md:w-fit w-full">
       <input v-model="form.label" placeholder="Label" />
       <select v-model="form.programId">
-        <option disabled value="">Program</option>
+        <option disabled value="">Project - Program</option>
         <option v-for="program in useProgramStore.programs" :value="program.id">
-          {{ program.label }}
+          {{ useProjectStore.projects.find((e) => e.id === program.projectId)?.label }}
+          - {{ program.label }}
         </option>
       </select>
       <input v-model="form.start" placeholder="Start" type="date" />
@@ -94,7 +95,7 @@ const columns = ref([
     class: 'w-32',
     field: (row) =>
       useProjectStore.projects.find(
-        (e) => e.id === useProgramStore.programs.find((e) => e.id === row.programId)?.id
+        (e) => e.id === useProgramStore.programs.find((p) => p.id === row.programId)?.id
       )?.label
   },
   {

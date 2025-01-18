@@ -1,6 +1,6 @@
 <template>
   <div class="view md:w-fit">
-    <div class="text-xl text-white mb-8">Program Config {{ id }}</div>
+    <div class="text-xl text-white mb-8">Program Config {{ originalProgram?.label }}</div>
     <div class="flex gap-8">
       <div class="flex flex-col gap-4">
         <div class="flex gap-2">

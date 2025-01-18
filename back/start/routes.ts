@@ -8,6 +8,7 @@ const UsersController = () => import('../app/controllers/users_controller.js')
 const HardwaresController = () => import('../app/controllers/hardwares_controller.js')
 const ProgramsController = () => import('../app/controllers/programs_controller.js')
 const CyclesController = () => import('../app/controllers/cycles_controller.js')
+const RunsController = () => import('../app/controllers/runs_controller.js')
 const FlowsController = () => import('../app/controllers/flows_controller.js')
 
 router
@@ -45,9 +46,21 @@ router
 
     /** Project */
     router.get('project', [ProjectsController, 'index']).use(middleware.auth())
+    router.get('project/:organizationId/:id', [ProjectsController, 'find'])
     router.put('project', [ProjectsController, 'store']).use(middleware.auth())
     router
       .delete('project/:id', [ProjectsController, 'delete'])
+      .use(middleware.auth())
+      .use(middleware.admin())
+
+    /** Run */
+    router.get('run', [RunsController, 'getRunning']).use(middleware.auth()).use(middleware.admin())
+    router
+      .get('run/:id/start', [RunsController, 'start'])
+      .use(middleware.auth())
+      .use(middleware.admin())
+    router
+      .get('run/:id/stop', [RunsController, 'stop'])
       .use(middleware.auth())
       .use(middleware.admin())
 

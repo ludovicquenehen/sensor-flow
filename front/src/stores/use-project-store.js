@@ -4,10 +4,12 @@ const toast = useToast()
 
 export default reactive({
   projects: [],
+  runs: [],
   async fetch(force = false) {
     if (this.projects.length === 0 || force) {
       try {
         this.projects = (await api.get('/project'))?.data || []
+				this.runs = (await api.get('/run'))?.data || []
       } catch (err) {
         toast.error('Projects fetch error')
       }
@@ -45,6 +47,22 @@ export default reactive({
       await this.fetch(true)
     } catch {
       toast.error('Unarchive project version error')
+    }
+  },
+  async run(projectId) {
+    try {
+      if (await api.get(`/run/${projectId}/start`)) toast.success('Project start successfully')
+      await this.fetch(true)
+    } catch {
+      toast.error('Start project error')
+    }
+  },
+  async stop(projectId) {
+    try {
+      if (await api.get(`/run/${projectId}/stop`)) toast.success('Project stop successfully')
+      await this.fetch(true)
+    } catch {
+      toast.error('Stop project error')
     }
   }
 })

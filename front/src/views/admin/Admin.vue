@@ -5,9 +5,9 @@
 import useUserStore from '@/stores/use-user-store';
 
 const router = useRouter()
-onMounted(() => {
+/*onMounted(() => {
 	if (!useUserStore.isAdmin) {
 		router.push('/')
 	}
-})
+})*/
 </script>
