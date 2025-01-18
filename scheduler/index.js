@@ -8,13 +8,11 @@ const projectId = process.argv?.[3];
 const apiUrl = process.argv?.[4] || "http://localhost:3333";
 const refreshInterval = process.argv?.[5] || 10; // in s
 
-console.log("START WITH", organizationId, projectId);
+console.log("START WITH PARAMS", organizationId, projectId, apiUrl, refreshInterval);
 
 const apiCall = async (route) => {
   try {
-    const tt = (await axios.get(`${apiUrl}/v1/${route}`))?.data;
-    //console.log("===>", tt, "<===")
-    return tt;
+    return (await axios.get(`${apiUrl}/v1/${route}`))?.data;
   } catch (err) {
     console.error(err, `${apiUrl}/v1/${route}`);
   }
@@ -100,13 +98,9 @@ const resolveCondition = async (condition) => {
       condition.end = "24:00";
     }
 
-    if (condition.mode === "DURATION") {
-      return checkDuration(condition);
-    } else if (condition.mode === "INTERVAL") {
-      return checkDuration(condition) && checkInterval(condition);
-    } else if (condition.mode === "WEEK") {
-      return checkWeek(condition);
-    }
+    if (condition.mode === "DURATION")  return checkDuration(condition);
+    else if (condition.mode === "INTERVAL") return checkDuration(condition) && checkInterval(condition);
+    else if (condition.mode === "WEEK") return checkWeek(condition);
   }
   if (condition.type === "SENSOR") return await checkSensor(condition);
   if (condition.type === "ACTUATOR") return await checkSwitch(condition);
