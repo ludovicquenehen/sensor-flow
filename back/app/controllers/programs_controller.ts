@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Program from '../models/program.js'
-import User from '../models/user.js'
+import Program from '#models/program'
+import User from '#models/user'
 
 export default class ProgramsController {
   async index({ auth }: HttpContext) {

@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Project from '../models/project.js'
-import RunService, { runs } from '../services/run.js'
+import Project from '#models/project'
+import RunService, { runs } from '#services/run'
 
 export default class RunsController {
   async getRunning() {

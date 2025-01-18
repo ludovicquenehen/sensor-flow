@@ -1,6 +1,6 @@
 import axios from 'axios'
-import env from '../../start/env.js'
-import User from '../models/user.js'
+import env from '#start/env'
+import User from '#models/user'
 
 export default class Mails {
   static async register(user: User, link: string) {

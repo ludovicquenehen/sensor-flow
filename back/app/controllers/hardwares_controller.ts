@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Hardware from '../models/hardware.js'
-import User from '../models/user.js'
+import Hardware from '#models/hardware'
+import User from '#models/user'
 
 export default class HardwaresController {
   async index({ auth }: HttpContext) {

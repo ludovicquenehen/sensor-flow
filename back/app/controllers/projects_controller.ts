@@ -1,9 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Project from '../models/project.js'
-import Cycle from '../models/cycle.js'
-import Program from '../models/program.js'
-import Hardware from '../models/hardware.js'
-import RunService from '../services/run.js'
+import Project from '#models/project'
+import Cycle from '#models/cycle'
+import Program from '#models/program'
+import Hardware from '#models/hardware'
+import RunService from '#services/run'
 
 export default class ProjectsController {
   async index({ auth }: HttpContext) {

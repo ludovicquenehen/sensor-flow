@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import User from '../models/user.js'
-import Flow from '../models/flow.js'
+import User from '#models/user'
+import Flow from '#models/flow'
 
 export default class FlowsController {
   async index({ auth }: HttpContext) {

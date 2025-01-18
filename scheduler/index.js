@@ -6,7 +6,7 @@ import moment from "moment";
 const organizationId = process.argv?.[2];
 const projectId = process.argv?.[3];
 const apiUrl = process.argv?.[4] || "http://localhost:3333";
-const refreshInterval = process.argv?.[5] || 30; // in s
+const refreshInterval = process.argv?.[5] || 10; // in s
 
 console.log("START WITH", organizationId, projectId);
 
@@ -22,7 +22,7 @@ const apiCall = async (route) => {
 const getProject = async () => await apiCall(`project/${organizationId}/${projectId}`);
 const getHardware = async (hardware) => {
   try {
-    return (await axios.get(hardware.api))?.data;
+    return (await axios.get(hardware.api))?.data
   } catch (err) {
     console.error(err?.message, hardware.api);
     return null;
@@ -35,9 +35,9 @@ const setActuator = async (actuator, state) => {
   }
 
   try {
-    return (await axios.get(`${api}/state/${state ? "1" : "0"}`))?.data;
+    return (await axios.get(`${api}/${state ? "1" : "0"}`))?.data;
   } catch (err) {
-    console.error(err?.message, `${api}/state/${state ? "1" : "0"}`);
+    console.error(err?.message, `${api}/${state ? "1" : "0"}`);
   }
 };
 
@@ -51,11 +51,11 @@ const logical = {
 };
 
 const checkSensor = (hardware) => logical[hardware.operator](HARDWARES[hardware.idHardware], hardware.value) || false;
-const checkSwitch = async (hardware) => !!(await getHardware(hardware));
+const checkSwitch = async (hardware) => (await getHardware(HARDWARES[hardware.idHardware])) == (hardware.state ? "1" : "0")
 
 const checkDuration = (condition) => {
   let time = moment();
-  time = time.add(1, "hour"); //TMP:
+  time = time.add(1, "hour"); //TMP: pour gérer le décallage sur le server
   const start = moment(condition.start, "HH:mm");
   let end = moment(condition.end, "HH:mm");
 
@@ -63,7 +63,6 @@ const checkDuration = (condition) => {
     end = moment(end).add(1, "day");
   }
 
-  console.log("checkduration", start, end, time, moment(start).isBefore(time), moment(end).isAfter(time));
   return moment(start).isBefore(time) && moment(end).isAfter(time);
 };
 
@@ -90,38 +89,34 @@ const checkInterval = (condition) => {
   }
 
   const time = moment().format("YYYY-MM-DD HH:mm");
-  return possibilities.some((e) => moment(e[0]).isBefore(time) && moment(e[1]).isAfter(time));
+  return possibilities.some((e) => moment(e[0]).isSameOrBefore(time) && moment(e[1]).isAfter(time));
 };
 
-const checkWeek = (condition) => {
-  const d = new Date();
-  return condition.days.includes(d.getDay());
-};
+const checkWeek = (condition) => condition.days.includes(moment().add(1, "hour").day());
 
-const resolveCondition = (condition) => {
+const resolveCondition = async (condition) => {
   if (condition.type === "TIME") {
     if (condition.end?.startsWith("00:00")) {
       condition.end = "24:00";
     }
 
-    const duration = checkDuration(condition);
     if (condition.mode === "DURATION") {
-      return duration;
+      return checkDuration(condition);
     } else if (condition.mode === "INTERVAL") {
-      return checkInterval(condition) && duration;
+      return checkDuration(condition) && checkInterval(condition);
     } else if (condition.mode === "WEEK") {
       return checkWeek(condition);
     }
   }
-  //console.log(condition, checkSensor(condition));
-  if (condition.type === "SENSOR") return checkSensor(condition);
-  if (condition.type === "SWITCH") return checkSwitch(condition);
+  if (condition.type === "SENSOR") return await checkSensor(condition);
+  if (condition.type === "ACTUATOR") return await checkSwitch(condition);
 };
 
 const recursiveCondition = async (condition) => {
   let result = [];
-  if (condition.children) {
-    result = await Promise.all(condition.children.map(async (c) => await recursiveCondition(c)));
+  if (condition.children?.length > 0) {
+    result = await Promise.all(condition.children.map(recursiveCondition));
+
     //console.log("result", result, condition.type);
     if (!["TIME", "SENSOR", "SWITCH"].includes(condition.type)) {
       if (condition.type === "or") return result.some((e) => !!e);
@@ -162,14 +157,14 @@ const main = async () => {
     })
   );
 
-  await Promise.all(
-    cycle.program.program.map(async (actuator) => {
-      const state = await recursiveCondition(actuator);
-      await setActuator(actuator, state);
-      console.log(`Set ACTUATOR '${HARDWARES[actuator.idHardware]?.label}': ${state ? "ON" : "OFF"}`);
-      return state;
-    })
-  );
+
+  for(let actuator of cycle.program.program) {
+    const state = await recursiveCondition(actuator);
+    await setActuator(actuator, state);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`Set ACTUATOR '${HARDWARES[actuator.idHardware]?.label}': ${state ? "ON" : "OFF"}`);
+    //return state;
+  }
 };
 
 main();

@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import User from '../models/user.js'
-import Mails from '../services/mails.js'
+import User from '#models/user'
+import Mails from '#services/mails'
 import { Exception } from '@adonisjs/core/exceptions'
 import router from '@adonisjs/core/services/router'
-import env from '../../start/env.js'
+import env from '#start/env'
 import { v4 as uuidv4 } from 'uuid'
-import Organization from '../models/organization.js'
+import Organization from '#models/organization'
 
 const generateRandomString = (length = 6) => Math.random().toString(20).substr(2, length)
 export default class UsersController {

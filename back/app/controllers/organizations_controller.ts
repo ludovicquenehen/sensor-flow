@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import Organization from '../models/organization.js'
+import Organization from '#models/organization'
 
 export default class OrganizationsController {
   async index({ auth }: HttpContext) {

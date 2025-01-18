@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import User from '../models/user.js'
-import Project from '../models/project.js'
+import User from '#models/user'
+import Project from '#models/project'
 
 export default class UserProjectsController {
   async join({ request }: HttpContext) {
