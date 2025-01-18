@@ -1,4 +1,5 @@
 import Project from '#models/project'
+import env from '#start/env'
 import { spawn } from 'child_process'
 
 export const runs: Array<{
@@ -15,7 +16,7 @@ export default class RunService {
       .andWhere('id', projectId)
       .firstOrFail()
 
-    const instance = spawn('node', ['../scheduler/index.js', organizationId, projectId])
+    const instance = spawn('node', ['../scheduler/index.js', organizationId, projectId, `http://${env.get('HOST')}:${env.get('PORT')}`])
     instance.stdout.on('data', (data) => {
       console.log(`[LOG - ${project.label}]: ${data.toString()}`)
     })
