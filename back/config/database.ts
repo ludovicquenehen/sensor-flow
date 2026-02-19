@@ -1,7 +1,7 @@
 import { defineConfig } from '@adonisjs/lucid'
 import env from '../start/env.js'
 
-const dbConfig = defineConfig({
+const dbConfig = defineConfig(/*{
   connection: 'sqlite',
   connections: {
     sqlite: {
@@ -16,6 +16,17 @@ const dbConfig = defineConfig({
       },
     },
   },
+}*/
+{
+  client: 'pg',
+  connection: {
+    connectionString: env.get('DATABASE_URL'),
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
+  healthCheck: false,
+  debug: false,
 })
 
 export default dbConfig

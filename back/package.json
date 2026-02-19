@@ -5,9 +5,9 @@
   "type": "module",
   "license": "UNLICENSED",
   "scripts": {
-		"db:migrate": "node ace migration:run",
+    "db:migrate": "node ace migration:run",
     "db:seed": "node ace db:seed",
-		"db:prepare": "node ace migration:run && node ace db:seed",
+    "db:prepare": "node ace migration:run && node ace db:seed",
     "start": "node --loader=ts-node/esm bin/server.js",
     "build": "node ace build",
     "dev": "node ace serve --hmr",
@@ -69,6 +69,7 @@
     "axios": "^1.7.2",
     "better-sqlite3": "^10.0.0",
     "luxon": "^3.4.4",
+    "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
     "uuid": "^9.0.1"
   },
