@@ -13,6 +13,11 @@ const FlowsController = () => import('../app/controllers/flows_controller.js')
 
 router
   .group(() => {
+		/**Health */
+		router.get('/health', async ({ response }) => {
+			return response.ok({ status: 'ok', timestamp: new Date().toISOString() })
+		})
+
     /** Authentication */
     router.post('login', [AuthenticationController, 'login'])
     router.get('me', [AuthenticationController, 'me']).use(middleware.auth())
