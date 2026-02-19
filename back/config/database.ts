@@ -4,7 +4,7 @@ import env from '../start/env.js'
 const dbConfig = defineConfig({
   connection: 'pg',
   connections: {
-    sqlite: {
+    /*sqlite: {
       client: 'better-sqlite3',
       connection: {
         filename: env.get('SQLITE_FILE'),
@@ -14,7 +14,7 @@ const dbConfig = defineConfig({
         naturalSort: true,
         paths: ['database/migrations'],
       },
-    },
+    },*/
     pg: {
       client: 'pg',
       connection: {
