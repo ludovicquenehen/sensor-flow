@@ -17,8 +17,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   APP_KEY: Env.schema.string(),
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
-  SQLITE_FILE: Env.schema.string(),
-  SMTP_SERVER: Env.schema.string(),
+  //SQLITE_FILE: Env.schema.string(),
+  DATABASE_URL: Env.schema.string(),
+  //SMTP_SERVER: Env.schema.string(),
   FRONT_BASE_URL: Env.schema.string(),
-  TZ: Env.schema.string()
+  TZ: Env.schema.string(),
 })
