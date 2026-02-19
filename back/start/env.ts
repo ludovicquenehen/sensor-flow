@@ -20,4 +20,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   SQLITE_FILE: Env.schema.string(),
   SMTP_SERVER: Env.schema.string(),
   FRONT_BASE_URL: Env.schema.string(),
+  TZ: Env.schema.string()
 })

@@ -213,10 +213,11 @@ void connectWiFi() {
     subnet.fromString(String(wifiConfig.subnet));
 
     if (ip.isSet() && gateway.isSet() && subnet.isSet()) {
-      Serial.println("Configuring static IP...");
-      Serial.print("try to connect on");
+      Serial.print("Configuring static IP: ");
+      Serial.println(ip);
+      Serial.print("Try to connect on ");
       Serial.println(wifiConfig.ssid);
-      Serial.print(wifiConfig.password);
+      //Serial.print(wifiConfig.password);
       WiFi.config(ip, gateway, subnet);
       WiFi.begin(wifiConfig.ssid, wifiConfig.password);
     } else {

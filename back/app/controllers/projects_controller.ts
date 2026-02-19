@@ -11,19 +11,27 @@ export default class ProjectsController {
   }
 
   async find({ request }: HttpContext) {
+    console.log('find', request.param('organizationId'), request.param('id'))
+
     const project = await Project.query()
       .where('organizationId', request.param('organizationId'))
       .andWhere('id', request.param('id'))
       .firstOrFail()
 
+    console.log('project')
+
     const hardwares = await Hardware.query().where('projectId', project.id)
+    console.log('hardwares')
     const programs = await Program.query().where('projectId', project.id)
+    console.log('programs')
 
     const today = new Date()
     const year = today.getFullYear()
     const month = today.getMonth() + 1
     const day = today.getDate()
     const todayS = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`
+
+    console.log(todayS)
 
     let cycle = await Cycle.query()
       .whereIn(
@@ -33,6 +41,8 @@ export default class ProjectsController {
       .andWhere('start', '<=', todayS)
       .andWhere('end', '>', todayS)
       .firstOrFail()
+
+    console.log('cycle')
 
     const program = await Program.findOrFail(cycle.programId)
     const cycleB = { ...cycle.toJSON, program }

@@ -26,6 +26,8 @@ ENV LOG_LEVEL=$LOG_LEVEL
 ENV APP_KEY=$APP_KEY
 ENV NODE_ENV=$NODE_ENV
 ENV SQLITE_FILE=$SQLITE_FILE
+ENV SMTP_SERVER=$SQLITE_FILE
+ENV FRONT_BASE_URL=$SQLITE_FILE
 
 RUN node ace migration:run && node ace db:seed
-CMD [ "npm",  "run", "start" ]
+CMD [ "npm",  "run", "dev" ]

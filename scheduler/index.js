@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 
-//node index.js bc461107-93ad-46d8-89c4-84208b5097bd 1 http://localhost:333 5
+//node index.js bc461107-93ad-46d8-89c4-84208b5097bd 1 http://localhost:3333 5
 
 const organizationId = process.argv?.[2];
 const projectId = process.argv?.[3];
@@ -28,6 +28,7 @@ const getHardware = async (hardware) => {
 };
 const setActuator = async (actuator, state) => {
   const api = HARDWARES[actuator.idHardware]?.api;
+  console.log("api", actuator.idHardware, api)
   if (!api) {
     console.error(`No hardware found for id ${actuator.id}`);
   }
@@ -53,7 +54,7 @@ const checkSwitch = async (hardware) => (await getHardware(HARDWARES[hardware.id
 
 const checkDuration = (condition) => {
   let time = moment();
-  time = time.add(1, "hour"); //TMP: pour gérer le décallage sur le server
+  time = time.add(1, "hour"); //TMP: (add(1, "hour")): pour gérer le décallage sur le server
   const start = moment(condition.start, "HH:mm");
   let end = moment(condition.end, "HH:mm");
 
@@ -90,7 +91,7 @@ const checkInterval = (condition) => {
   return possibilities.some((e) => moment(e[0]).isSameOrBefore(time) && moment(e[1]).isAfter(time));
 };
 
-const checkWeek = (condition) => condition.days.includes(moment().add(1, "hour").day());
+const checkWeek = (condition) => condition.days.includes(moment().add(1, "hour").day()); //TMP (add(1, "hour")): pour gérer le décallage sur le server
 
 const resolveCondition = async (condition) => {
   if (condition.type === "TIME") {
